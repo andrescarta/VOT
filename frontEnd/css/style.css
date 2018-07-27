@@ -1,0 +1,135 @@
+@font-face {
+    font-family: 'fedra_sans_bookregular';
+    src: url('../fonts/fedra_sans_book_regular-webfont.woff2') format('woff2'), url('../fonts/fedra_sans_book_regular-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+html,
+body,
+.my-wrapper {
+    height: 100%;
+}
+
+body {
+    font-family: 'fedra_sans_bookregular';
+    background-color: #6768ab;
+    color: white;
+    letter-spacing: -1px;
+}
+
+.interior {
+	margin: 0 auto;
+}
+
+.logoapp {
+    opacity: 0;
+}
+
+.nomlogo {
+    font-size: 3em;
+    font-weight: bold;
+    line-height: 0.6em;
+}
+
+.claim {
+    margin-top: 50px;
+    margin-bottom: 30px;
+    opacity: 0;
+}
+
+.boto {
+    padding: 20px;
+    opacity: 0;
+}
+
+.bototext {
+    font-size: 1.6em;
+    padding: 0 100px;
+}
+
+.logoent {
+    margin-top: 30px;
+    opacity: 0;
+    z-index: 999;
+}
+
+.icon-block {
+    padding: 0 15px;
+}
+
+.icon-block .material-icons {
+    font-size: inherit;
+}
+
+#animatebubbles {
+    margin-bottom: -200px;
+}
+
+.bubblewrapper {
+    height: 100%;
+/*  position: relative;
+    margin-bottom: -600px; */
+    margin-bottom: -100px;
+}
+
+.bubblepath {
+    height: 100%;
+    padding: 0 1px;
+    display: table-cell;
+    width: 60px;
+}
+
+.bubble {
+    height: 40px;
+    width: 40px;
+    bottom: 0px;
+}
+
+#bubble1,
+#bubble2,
+#bubble3,
+#bubble4,
+#bubble5,
+#bubble6,
+#bubble7,
+#bubble8 {
+    opacity: 0;
+}
+
+/* només per l'efecte anime.js */
+.inputfila01, .inputfila02, .inputfila03 {
+  opacity: 0;
+}
+
+/* swup */
+header {
+    transition: .4s;
+}
+body.page-homepage header {
+    background: blue;
+}
+body.page-about header {
+    background: yellow;
+}
+
+/* Canvi colors per defecte del form (materialize) */
+
+.input-field label {
+    color: whitesmoke;
+}
+
+input:not([type]), input[type=text]:not(.browser-default), input[type=password]:not(.browser-default), input[type=email]:not(.browser-default), input[type=url]:not(.browser-default), input[type=time]:not(.browser-default), input[type=date]:not(.browser-default), input[type=datetime]:not(.browser-default), input[type=datetime-local]:not(.browser-default), input[type=tel]:not(.browser-default), input[type=number]:not(.browser-default), input[type=search]:not(.browser-default), textarea.materialize-textarea {
+    border-bottom: 1px solid white;
+}
+
+/* label focus color */
+.input-field input:focus + label {
+    color: black !important;
+  }
+
+/* label underline focus color */
+.row .input-field input:focus {
+  border-bottom: 1px solid black !important;
+  box-shadow: 0 1px 0 0 black !important
+}
