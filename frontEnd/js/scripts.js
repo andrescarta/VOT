@@ -1,6 +1,28 @@
 (function($) {
     $(function() {
 
+/* modals per quan estem utilitzant ajax (llegeix i escriu json's) */
+
+      $.ajaxSetup({
+          'beforeSend' : function() {
+              swal({
+                //type: 'warning',
+                title: '<span style="color:#fff">Una mica de paciència ;-)</span>',
+                showConfirmButton: false,
+                imageUrl: '/img/nyan-cat.gif',
+                imageWidth: 200,
+                imageHeight: 200,
+                imageAlt: 'carregant...',
+                allowOutsideClick: false,
+                allowEscapeKey: false,
+                background: '#6698e7',
+              });
+          },
+          'complete'   : function() {
+              swal.close();
+          }
+      });
+
 /** Animació elements entrada **/
 
         var elasticity = anime.timeline();
@@ -81,6 +103,8 @@
     });
 
 // end of document ready
+
+
 
 
 /*** Json ***/

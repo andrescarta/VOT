@@ -77,6 +77,7 @@
 
     <!--  Scripts-->
     <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script src="js/sweetalert2.all.min.js"></script>
     <script src="js/materialize.min.js"></script>
     <script src="js/scripts.js"></script>
     <script src="js/anime.js"></script>
@@ -95,6 +96,7 @@
       /* llista de users de l'esdeveniment */
       function users() {
         $.getJSON('https://cors-anywhere.herokuapp.com/https://itacademybcn.herokuapp.com/hackaton/users', function(json) {
+          $('.descripcio').empty();
             $.each(json, function() {
               $('.descripcio').append('<div class="col s6 m2 llista_users">'+ this.name +'</div>');
               $('.descripcio').append('<div class="col s6 m2">'+ this.lastName +'</div>');

@@ -44,7 +44,7 @@ h5.titol {
 }
 
 .elimina_user {
-  cursor: pointer;
+  text-align: right;
 }
 
 .nou_user {
