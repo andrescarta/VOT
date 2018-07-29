@@ -9,7 +9,7 @@
                 //type: 'warning',
                 title: '<span style="color:#fff">Una mica de paciència ;-)</span>',
                 showConfirmButton: false,
-                imageUrl: '/img/nyan-cat.gif',
+                imageUrl: 'img/nyan-cat.gif',
                 imageWidth: 200,
                 imageHeight: 200,
                 imageAlt: 'carregant...',
