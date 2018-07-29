@@ -14,12 +14,10 @@ body,
 */
 
 html {
-  background: #6666aa;
   background: -moz-linear-gradient(-45deg, #6666aa 0%, #6698e7 100%);
   background: -webkit-linear-gradient(-45deg, #6666aa 0%,#6698e7 100%);
   background: linear-gradient(135deg, #6666aa 0%,#6698e7 100%);
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#6666aa', endColorstr='#6698e7',GradientType=1 );
-  height: 100%;
 }
 
 .my-wrapper {
@@ -39,6 +37,18 @@ h5.titol {
     margin-top: -10px;
     margin-bottom: -10px;
     padding-left: 10px;
+}
+
+.llista_users {
+  padding-left:0 !important;
+}
+
+.elimina_user {
+  cursor: pointer;
+}
+
+.nou_user {
+  margin-top: -10px;
 }
 
 .linia-sep {
@@ -218,4 +228,30 @@ input:not([type]), input[type=text]:not(.browser-default), input[type=password]:
       margin-top: 100px;
       margin-bottom: 100px;
   }
+}
+
+/* sobreescriu estils enllaços */
+a {
+    color: #fff;
+    text-decoration: underline;
+    font-weight: bold;
+    -webkit-tap-highlight-color: transparent;
+    transition:.5s;
+}
+
+a:hover {
+  color: #000;
+  -webkit-tap-highlight-color: transparent;
+}
+
+a.no_sub {
+    color: #fff;
+    text-decoration: none;
+    -webkit-tap-highlight-color: transparent;
+    transition:.5s;
+}
+
+a:hover {
+  color: #000;
+  -webkit-tap-highlight-color: transparent;
 }

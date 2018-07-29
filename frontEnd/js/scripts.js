@@ -122,6 +122,46 @@
     });
 
 
+    /* crea un votant */
+
+    $("#crea-votant").click(function() {
+        var arr = [];
+
+        $(".fieldwrapper").each(function() {
+            var entry = {};
+            var nom = $(this).find("input[id='name']").val();
+            var cognoms = $(this).find("input[id='lastName']").val();
+            var email = $(this).find("input[id='email']").val();
+            var pass = $(this).find("input[id='password']").val();
+            var idProf = parseInt($(this).find("input[id='idProfile']").val());
+            var idEnt = parseInt($(this).find("input[id='idEntity']").val());
+            entry.name = nom;
+            entry.lastName = cognoms;
+            entry.email = email;
+            entry.password = pass;
+            entry.idProfile = idProf;
+            entry.idEntity = idEnt;
+            arr.push(entry);
+        });
+
+        //alert(JSON.stringify(arr));
+        formData=JSON.stringify(arr);
+        formData = formData.replace(/[\[\]]/g, "");
+        //alert(formData);
+
+        $.ajax({
+            type: "POST",
+            url: "https://cors-anywhere.herokuapp.com/https://itacademybcn.herokuapp.com/hackaton/users",
+            data: formData,
+            success: function() { console.log('ok!');
+            window.location.href = "evento_users.html"; },
+            error: function (request, status, error) { alert(formData); },
+            contentType : "application/json"
+        });
+    });
+
+/* crea evento */
+
     $("#enviar-crea_evento").click(function() {
         //var arr = {};
         var arr = [];
@@ -147,7 +187,9 @@
             // Com que de moment només treballem amb una entitat, la url queda fixe amb la entitat 1...
             url: "https://cors-anywhere.herokuapp.com/https://itacademybcn.herokuapp.com/hackaton/entities/1/events",
             data: formData,
-            success: function() { alert('ok!'); },
+            success: function() { console.log('ok!');
+            window.location.href = "listar_eventos.html";
+            },
             //success: function (request, status, error) { alert(formData); },
             error: function (request, status, error) { alert(formData); },
             contentType : "application/json"
@@ -187,7 +229,6 @@
         });
     });
 
-
 /* Recollir llista d'events i parsejar-los */
 
   $("#agafa_events").click(function() {
@@ -207,26 +248,6 @@
         });
     });
   }
-
-/*
-    $("#agafa_evento").click(function() {
-      $.getJSON("https://cors-anywhere.herokuapp.com/https://itacademybcn.herokuapp.com/hackaton/entities/1/events", function(data){
-        $.each(data, function (index, value) {
-            console.log(value);
-          });
-        });
-    });
-*/
-
-/*
-$("#agafa_evento").click(function() {
-  var dataArray = [];
-  var obj = jQuery.parseJSON(yourInput);
-  $.each(obj, function (index, value) {
-      dataArray.push([value["yourID"].toString(), value["yourValue"] ]);
-  });
-});
-*/
 
     /*
         $("#add").click(function() {

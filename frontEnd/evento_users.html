@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="ca">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0" />
+    <title>Vot!</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="css/materialize.css" type="text/css"
+ rel="stylesheet" media="screen,projection" />
+    <link href="css/style.css" type="text/css" rel="stylesheet" media="screen,projection" />
+</head>
+
+<!--<body onload="quinaId()">-->
+<body onload="users()">
+    <div class="container my-wrapper valign-wrapper">
+        <div class="interior" id="elasticity">
+
+            <div class="row fonsrow">
+                <div class="col s10 m10">
+                    <div>
+                        <div class="logoapp" style="transform:translateY(-200px);">
+                            <div class="logo entitat"><img src="img/m4social.jpg" width="130" class="entitat"></div>
+                        </div>
+                        <div class="nom_ent">m4social</div>
+                        <div class="mail_ent">blabla@bla.bla</div>
+                    </div>
+                </div>
+                <div class="col s2 m2">
+                    <div>
+                        <div class="logoapp" style="transform:translateY(-200px);">
+                            <div class="logo config"><a href="config.html"><img src="img/config.png" width="30"></a></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="row fonsrow">
+              <h5 class="titol">Títol</h5>
+            </div>
+
+      			<div class="row fonsrow">
+              <div class="col s12 m12 descripcio"><!--Aquest esdeveniment encara no té Votants--></div>
+              <!--<div id="add">+</div>-->
+      			</div>
+
+            <div class="row fieldwrapper fonsrow">
+      			    <form class="col s12" name="formulari">
+      			        <div class="row inputfila01 nou_user" style="transform:translateX(200px);">
+      			            <div class="input-field col s6 m2">
+      			                <input id="name" type="text">
+      			                <label for="name">Nom</label>
+      			            </div>
+      			            <div class="input-field col s6 m2">
+      			                <input id="lastName" type="text">
+      			                <label for="lastName">Cognoms</label>
+      			            </div>
+                        <div class="input-field col s12 m4">
+                            <input id="email" type="email" class="validate">
+                            <label for="email">Email</label>
+                            <input type="hidden" id="idProfile" name="idProfile" value="2">
+                            <input type="hidden" id="idEntity" name="idEntity" value="1">
+                        </div>
+                        <div class="input-field col s12 m4">
+                            <input id="password" type="password" name="password">
+                            <label for="password">Password</label>
+                        </div>
+      			        </div>
+      			        <div class="row">
+      			            <div id="crea-votant" class="boto center elasticity-0" style="transform: translateX(-200px);"><a href="#" id="download-button" class="btn-large waves-effect waves-light indigo darken-4 bototext">Crea un nou votant</a></div>
+      			        </div>
+      			    </form>
+      			</div>
+        </div>
+    </div>
+
+    <!--  Scripts-->
+    <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script src="js/materialize.min.js"></script>
+    <script src="js/scripts.js"></script>
+    <script src="js/anime.js"></script>
+    <script>
+    /* detecta idEvent i pinta lo corresponent */
+    /*  function quinaId() {
+        var id = window.location.href.split('=').pop()
+        console.log('idEvent', id);
+        var idUrl = 'https://cors-anywhere.herokuapp.com/https://itacademybcn.herokuapp.com/hackaton/entities/1/events/'+id;
+        console.log('idUrl', idUrl);
+        $.getJSON(idUrl, function(json) {
+              $('.titol').append(this.title);
+        });
+      }
+*/
+      /* llista de users de l'esdeveniment */
+      function users() {
+        $.getJSON('https://cors-anywhere.herokuapp.com/https://itacademybcn.herokuapp.com/hackaton/users', function(json) {
+            $.each(json, function() {
+              $('.descripcio').append('<div class="col s6 m2 llista_users">'+ this.name +'</div>');
+              $('.descripcio').append('<div class="col s6 m2">'+ this.lastName +'</div>');
+              $('.descripcio').append('<div class="col s6 m7">'+ this.email +'</div>');
+              $('.descripcio').append('<div class="col s6 m1 elimina_user"><a href="#" onclick="eliminaUser('+ this.idUser +');" class="no_sub">x</a></div>');
+              $('.descripcio').append('<div class="col s12 m12 linia-sep"></div>');
+            });
+        });
+      }
+
+      /* esborra user */
+      function eliminaUser(user) {
+        var idUserElimina = 'https://cors-anywhere.herokuapp.com/https://itacademybcn.herokuapp.com/hackaton/users/'+user;
+        console.log(idUserElimina);
+          $.ajax({
+              type: "DELETE",
+              url: idUserElimina,
+              success: function() { console.log('ok!');
+              window.location.href = "evento_users.html";
+              },
+              error: function (request, status, error) { alert(formData); },
+              contentType : "application/json"
+          });
+      }
+
+      /* afegeix user */
+      $("#add").click(function() {
+        //alert('sss');
+          var intId = $("#buildyourform div").length + 1;
+          var fieldWrapper = $("<div class=\"col s12 m12 \" id=\"field" + intId + "\"/>");
+          var nom = $("<div class=\"col s12 m3\"><input type=\"text\" name=\"neighborhood\" placeholder=\"Name of Neighborhood\"class=\"fieldname\" /></div>");
+          var cognom = $("<div class=\"col s12 m3\"><input type=\"text\" name=\"url\" placeholder=\"Paste here the URL of the Image\"class=\"fieldname\" /></div>");
+          //var password =
+          //var email =
+          /*var removeButton = $("<input type=\"button\"class=\"remove\" value=\"Remove\" />");
+          removeButton.click(function() {
+              $(this).parent().remove();
+          });*/
+          fieldWrapper.append(nom);
+          fieldWrapper.append(cognom);
+          $(".descripcio").append(fieldWrapper);
+      });
+    </script>
+</body>
+
+</html>
