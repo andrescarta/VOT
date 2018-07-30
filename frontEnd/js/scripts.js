@@ -198,7 +198,6 @@ function errorModal() {
             contentType : "application/json"
         });
     });
-
 /* crea evento */
 
     $("#enviar-crea_evento").click(function() {
@@ -209,9 +208,11 @@ function errorModal() {
             var entry = {};
             var nom = $(this).find("input[id='creaevent-nom']").val();
             var descripcio = $(this).find("textarea[id='creaevent-descrip']").val();
+            var data = $(this).find("input[id='data']").val();
             var idType = parseInt($(this).find("input[id='idTypeEvent']").val());
             entry.title = nom;
             entry.description = descripcio;
+            entry.dateEvent = data;
             entry.idTypeEvent = idType;
             arr.push(entry);
         });
@@ -219,7 +220,7 @@ function errorModal() {
         //alert(JSON.stringify(arr));
         formData=JSON.stringify(arr);
         formData = formData.replace(/[\[\]]/g, "");
-        //alert(formData);
+        console.log(formData);
 
         $.ajax({
             type: "POST",
@@ -229,12 +230,15 @@ function errorModal() {
             success: function() { console.log('ok!');
             window.location.href = "listar_eventos.html";
             },
-            //success: function (request, status, error) { alert(formData); },
-            error: function (request, status, error) { alert(formData); },
+            error: function (request, status, error) { console.log('error!'); },
             contentType : "application/json"
         });
     });
+/*
+    $("#esborra_event").click(function() {
 
+    });
+*/
 /* login user */
 
     $("#enviar-login-user").click(function() {
@@ -254,7 +258,7 @@ function errorModal() {
         });
         formData=JSON.stringify(arr);
         formData = formData.replace(/[\[\]]/g, "");
-        
+
 
         $.ajax({
             type: "POST",

@@ -15,14 +15,15 @@
     <div class="container my-wrapper valign-wrapper">
         <div class="interior" id="elasticity">
 
+<!-- inici capçalera -->
             <div class="row fonsrow">
                 <div class="col s10 m10">
                     <div>
                         <div class="logoapp" style="transform:translateY(-200px);">
                             <div class="col s12 m3 logo entitat"><img src="img/m4social.jpg" width="130" class="entitat"></div>
-                            <div class="col s12 m3 nom_ent"></div>
-                            <div class="col s12 m3 mail_ent"></div>
-                            <div class="col s12 m3 nom_resp"></div>
+                            <div class="col s12 m9 nom_ent"></div>
+                            <div class="col s12 m9 mail_ent"></div>
+                            <div class="col s12 m9 nom_resp"></div>
                         </div>
                     </div>
                 </div>
@@ -34,7 +35,7 @@
                     </div>
                 </div>
             </div>
-
+<!-- fi capçalera -->
 
             <div class="row fonsrow">
               <h5 class="titol"></h5>
@@ -42,27 +43,27 @@
 
       			<div class="row fieldwrapper fonsrow">
       			        <div class="row inputfila01" style="transform:translateX(200px);">
-                      <div class="descripcio"></div>
+                      <div class="col s12 m10 descripcio"></div>
       			        </div>
       			        <div class="row inputfila02" style="transform:translateX(-200px);">
-                      <div class="data"></div>
+                      <div class="col s12 m10 data"></div>
       			        </div>
       			</div>
 
             <div class="row fonsrow">
               <div class="col s12 m4">
-                <div id="convidats" class="boto center elasticity-100" style="transform: translateX(200px);"><a href="evento_users.html" id="download-button" class="btn-large waves-effect waves-light indigo darken-4 bototext_v">Convidats</a></div>
+                <div id="convidats" class="boto center elasticity-100" style="transform: translateX(200px);"><a href="" id="evento_users" class="btn-large waves-effect waves-light indigo darken-4 bototext_v">Convidats</a></div>
               </div>
               <div class="col s12 m4">
-                <div id="preguntes" class="boto center elasticity-100" style="transform: translateX(200px);"><a href="#" id="download-button01" class="btn-large waves-effect waves-light indigo darken-4 bototext_v">Preguntes</a></div>
+                <div id="preguntes" class="boto center elasticity-100" style="transform: translateX(200px);"><a href="" id="questions" class="btn-large waves-effect waves-light indigo darken-4 bototext_v">Preguntes</a></div>
               </div>
               <div class="col s12 m4">
-                <div id="stats" class="boto center elasticity-100" style="transform: translateX(200px);"><a href="#" id="download-button02" class="btn-large waves-effect waves-light indigo darken-4 bototext_v">Resultats</a></div>
+                <div id="stats" class="boto center elasticity-100" style="transform: translateX(200px);"><a href="" id="resultats" class="btn-large waves-effect waves-light indigo darken-4 bototext_v">Resultats</a></div>
               </div>
             </div>
             <div class="row fonsrow">
               <div class="col s12 m12">
-                <div id="eliminar" class="boto center elasticity-0" style="transform: translateX(-200px);"><a href="#" id="download-button03" class="btn-large waves-effect waves-light indigo darken-4 bototext">Esborrar esdeveniment</a></div>
+                <div id="eliminar" class="boto center elasticity-0" style="transform: translateX(-200px);"><a href="#" onclick="eliminaEvento();" id="esborra_event" class="btn-large waves-effect waves-light indigo darken-4 bototext">Esborrar esdeveniment</a></div>
               </div>
             </div>
         </div>
@@ -76,26 +77,46 @@
     <script src="js/anime.js"></script>
 
     <script>
+    //var urlId = window.location.href
+
     /* detecta idEvent i pinta lo corresponent */
       function quinaId () {
-        var id = window.location.href.split('=').pop()
+        var id = window.location.href.split('=').pop();
+        $('a#evento_users').attr("href", "evento_users.html?idEvent="+id);
+        $('a#questions').attr("href", "preguntes_entitat.html?idEvent="+id);
+        $('a#resultats').attr("href", "resultats.html?idEvent="+id);
+
         var idUrl = 'https://cors-anywhere.herokuapp.com/https://itacademybcn.herokuapp.com/hackaton/entities/1/events/'+id;
         $.getJSON(idUrl, function(json) {
               $('.titol').append(json.title);
-              $('.descripcio').append('<div class="col s12 m7">'+ json.description +'</div>');
-              $('.data').append('<div class="col s12 m1">'+ json.date +'</div>');
+              $('.descripcio').append(json.description);
+              $('.data').append(json.date);
         });
       }
 
       function get_entitat() {
         $.getJSON('https://cors-anywhere.herokuapp.com/https://itacademybcn.herokuapp.com/hackaton/entities/1', function(json) {
-              $('.nom_ent').append('<div class="col s12 m3"> '+ json.businessName +' </div>');
-              $('.mail_ent').append('<div class="col s12 m7">'+ json.email +'</div>');
-              $('.nom_resp').append('<div class="col s12 m1">Admin: '+ json.name +' '+ json.lastName +'</div>');
+              $('.nom_ent').append(json.businessName);
+              $('.mail_ent').append(json.email);
+              $('.nom_resp').append(json.name +' '+ json.lastName );
         });
       }
-    </script>
 
+      function eliminaEvento() {
+        var id = window.location.href.split('=').pop();
+        var idEventElimina = 'https://cors-anywhere.herokuapp.com/https://itacademybcn.herokuapp.com/hackaton/entities/1/events/'+id;
+        console.log(idEventElimina);
+          $.ajax({
+              type: "DELETE",
+              url: idEventElimina,
+              success: function() { console.log('ok!');
+              window.location.href = "listar_eventos.html";
+              },
+              error: function (request, status, error) { console.log('error!'); },
+              contentType : "application/json"
+          });
+      }
+    </script>
 </body>
 
 </html>

@@ -76,18 +76,11 @@ h5.titol {
 }
 
 .descripcio, .data {
-  padding-left: 30px;
+  padding-left: 30px !important;
 }
 
 .logoapp {
     opacity: 0;
-    height: 130px;
-    display: table;
-}
-
-.nom_ent {
-  display: table-cell;
-  vertical-align: bottom;
 }
 
 .entitat {
