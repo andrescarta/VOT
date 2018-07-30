@@ -198,6 +198,7 @@ function errorModal() {
             contentType : "application/json"
         });
     });
+
 /* crea evento */
 
     $("#enviar-crea_evento").click(function() {
@@ -234,11 +235,7 @@ function errorModal() {
             contentType : "application/json"
         });
     });
-/*
-    $("#esborra_event").click(function() {
 
-    });
-*/
 /* login user */
 
     $("#enviar-login-user").click(function() {
@@ -300,25 +297,6 @@ function errorModal() {
         });
     });
   }
-
-    /*
-        $("#add").click(function() {
-            var intId = $("#buildyourform div").length + 1;
-            var fieldWrapper = $("<div class=\"fieldwrapper\" id=\"field" + intId + "\"/>");
-            var name = $("<input type=\"text\" name=\"neighborhood\" placeholder=\"Name of Neighborhood\"class=\"fieldname\" />");
-               var url = $("<input type=\"text\" name=\"url\" placeholder=\"Paste here the URL of the Image\"class=\"fieldname\" />");
-
-            var removeButton = $("<input type=\"button\"class=\"remove\" value=\"Remove\" />");
-            removeButton.click(function() {
-                $(this).parent().remove();
-            });
-            fieldWrapper.append(name);
-                    fieldWrapper.append(url);
-
-            fieldWrapper.append(removeButton);
-            $("#buildyourform").append(fieldWrapper);
-        });
-    */
 
 /*** Fi Json ***/
 
