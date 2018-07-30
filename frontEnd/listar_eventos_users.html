@@ -57,11 +57,11 @@
  
  
     <script>
-        // Obtencion de Cabecera
-          function Cabecera() {
-            $.getJSON('https://itacademybcn.herokuapp.com/hackaton/login', function(json) {
+          function cabecera() {
+            $.getJSON('https://cors-anywhere.herokuapp.com/https://itacademybcn.herokuapp.com/hackaton/login', function(json) {
                 $.each(json, function() {
-                  $('#idUser').append( this.idUser );
+                //   $('#user').append( this.idUser );
+                console.log("hello asdasd");
                   $('#email').append( this.email );
 
                 //   $('#events').append('<div class="col s12 m7">Descripció: '+ this.description +'</div>');
@@ -73,22 +73,47 @@
           }
         </script>
     
+
+<script>
+/**
+* Funcion que captura las variables pasados por GET
+* Devuelve un array de clave=>valor
+*/
+function getGET()
+{
+    // capturamos la url
+    var loc = document.location.href;
+    // si existe el interrogante
+    if(loc.indexOf('?')>0)
+    {
+        // cogemos la parte de la url que hay despues del interrogante
+        var getString = loc.split('?')[1];
+        // obtenemos un array con cada clave=valor
+        var GET = getString.split('&');
+        var get = {};
+        // recorremos todo el array de valores
+        for(var i = 0, l = GET.length; i < l; i++){
+            var tmp = GET[i].split('=');
+            get[tmp[0]] = unescape(decodeURI(tmp[1]));
+        }
+        return get;
+    }
+}
+
+</script>
+
+
  
-
-    "login usuario:
-    La Api recibe en JSON:
-    { ""email"" : ""rccr.2015@gmail.com"", ""password"" : ""123"" , ""idProfile"": 1}
-    
-    La Api responde en JSON:
-    [{""idUser"":1,""name"":""Roberto"",""lastName"":""Cortijo"",""email"":""rccr.2015@gmail.com"",
-    ""profile"":{""idProfile"":1,""name"":""Entidad""}}]"
-
-
-
 
  <script>
     /* Recollir llista d'events i parsejar-los */
       function llista_events() {
+        var valores=getGET();
+        // alert(valores['email']);
+        document.getElementById("email").append(valores['email']);
+        document.getElementById("idUser").append(valores['name']);
+
+
         $.getJSON('https://cors-anywhere.herokuapp.com/https://itacademybcn.herokuapp.com/hackaton/users/2/events', function(json) {
             $.each(json, function() {
               $('#events').append('<div class="col s12 m3"><a href="evento.html?idEvent='+ this.idEvent +'">Titol:  ' + this.title + '</a></div>');
@@ -96,6 +121,7 @@
               $('#events').append('<div class="col s12 m1">Data: '+ this.date +'</div>');
               //$('#events').append('<div class="col s12 m1">idEvent: '+ this.idEvent +'</div>');
               $('#events').append('<div class="col s12 m12 linia-sep"></div>');
+
             });
         });
       }
