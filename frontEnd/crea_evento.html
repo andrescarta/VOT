@@ -11,29 +11,31 @@
     <link href="css/style.css" type="text/css" rel="stylesheet" media="screen,projection" />
 </head>
 
-<body>
+<body onload="get_entitat()">
     <div class="container my-wrapper valign-wrapper">
         <div class="interior" id="elasticity">
 
-            <div class="row fonsrow">
-                <div class="col s10 m10">
-                    <div>
-                        <div class="logoapp" style="transform:translateY(-200px);">
-                            <div class="logo entitat"><img src="img/m4social.jpg" width="130" class="entitat"></div>
-                        </div>
-                        <div class="nom_ent">m4social</div>
-                        <div class="mail_ent">blabla@bla.bla</div>
-                    </div>
-                </div>
-                <div class="col s2 m2">
-                    <div>
-                        <div class="logoapp" style="transform:translateY(-200px);">
-                            <div class="logo config"><a href="config.html"><img src="img/config.png" width="30"></a></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
+          <!-- inici capçalera -->
+          <div class="row fonsrow">
+              <div class="col s10 m10">
+                  <div>
+                      <div class="logoapp" style="transform:translateY(-200px);">
+                          <div class="col s12 m3 logo entitat"><img src="img/m4social.jpg" width="130" class="entitat"></div>
+                          <div class="col s12 m9 nom_ent"></div>
+                          <div class="col s12 m9 mail_ent"></div>
+                          <div class="col s12 m9 nom_resp"></div>
+                      </div>
+                  </div>
+              </div>
+              <div class="col s2 m2">
+                  <div>
+                      <div class="logoapp" style="transform:translateY(-200px);">
+                          <div class="logo config"><a href="config.html"><img src="img/config.png" width="30"></a></div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+          <!-- fi capçalera -->
 
             <div class="row fonsrow">
               <h5 class="titol">Crear esdeveniment</h5>
@@ -56,6 +58,11 @@
                           <!--<input type="hidden" id="idProfile" name="idProfile" value="1">-->
       			            </div>
       			        </div>
+                    <div class="row inputfila03" style="transform:translateX(200px);">
+                        <div class="input-field col s12">
+                            <input id="data" type="date">
+                        </div>
+                    </div>
       			        <div class="row">
       			            <div id="enviar-crea_evento" class="boto center elasticity-100" style="transform: translateX(200px);"><a href="#" id="download-button" class="btn-large waves-effect waves-light indigo darken-4 bototext">Enviar</a></div>
       			        </div>
@@ -77,6 +84,15 @@
     <script src="js/materialize.min.js"></script>
     <script src="js/scripts.js"></script>
     <script src="js/anime.js"></script>
+    <script>
+    function get_entitat() {
+      $.getJSON('https://cors-anywhere.herokuapp.com/https://itacademybcn.herokuapp.com/hackaton/entities/1', function(json) {
+            $('.nom_ent').append(json.businessName);
+            $('.mail_ent').append(json.email);
+            $('.nom_resp').append(json.name +' '+ json.lastName );
+      });
+    }
+  </script>
 </body>
 
 </html>

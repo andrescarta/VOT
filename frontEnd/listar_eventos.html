@@ -15,25 +15,28 @@
     <div class="container my-wrapper valign-wrapper">
         <div class="interior" id="elasticity">
 
-            <div class="row fonsrow">
-                <div class="col s10 m10">
-                    <div>
-                        <div class="logoapp" style="transform:translateY(-200px);">
-                            <div class="logo entitat"><img src="img/m4social.jpg" width="130" class="entitat"></div>
-                        </div>
-                        <div class="nom_ent"></div>
-                        <div class="mail_ent"></div>
-                        <div class="nom_resp"></div>
-                    </div>
-                </div>
-                <div class="col s2 m2">
-                    <div>
-                        <div class="logoapp" style="transform:translateY(-200px);">
-                            <div class="logo config"><a href="config.html"><img src="img/config.png" width="30"></a></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+          <!-- inici capçalera -->
+                      <div class="row fonsrow">
+                          <div class="col s10 m10">
+                              <div>
+                                  <div class="logoapp" style="transform:translateY(-200px);">
+                                      <div class="col s12 m3 logo entitat"><img src="img/m4social.jpg" width="130" class="entitat"></div>
+                                      <div class="col s12 m9 nom_ent"></div>
+                                      <div class="col s12 m9 mail_ent"></div>
+                                      <div class="col s12 m9 nom_resp"></div>
+                                  </div>
+                              </div>
+                          </div>
+                          <div class="col s2 m2">
+                              <div>
+                                  <div class="logoapp" style="transform:translateY(-200px);">
+                                      <div class="logo config"><a href="config.html"><img src="img/config.png" width="30"></a></div>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+          <!-- fi capçalera -->
+
             <div class="row fonsrow">
               <h5 class="titol">Esdeveniments programats</h5>
             </div>
@@ -59,18 +62,17 @@
         $.getJSON('https://cors-anywhere.herokuapp.com/https://itacademybcn.herokuapp.com/hackaton/entities/1/events', function(json) {
             $.each(json, function() {
               $('#events').append('<div class="col s12 m3"><a href="evento.html?idEvent='+ this.idEvent +'">' + this.title + '</a></div>');
-              $('#events').append('<div class="col s12 m7">'+ this.description +'</div>');
-              $('#events').append('<div class="col s12 m2 aladreta">'+ this.date +'</div>');
+              $('#events').append('<div class="col s12 m7"><a href="evento.html?idEvent='+ this.idEvent +'">'+ this.description +'</a></div>');
+              $('#events').append('<div class="col s12 m2 aladreta"><a href="evento.html?idEvent='+ this.idEvent +'">'+ this.date +'</a></div>');
               $('#events').append('<div class="col s12 m12 linia-sep"></div>');
             });
         });
       }
       function get_entitat() {
         $.getJSON('https://cors-anywhere.herokuapp.com/https://itacademybcn.herokuapp.com/hackaton/entities/1', function(json) {
-          console.log(json);
-              $('.nom_ent').append('<div class="col s12 m3"> '+ json.businessName +' </div>');
-              $('.mail_ent').append('<div class="col s12 m7">'+ json.email +'</div>');
-              $('.nom_resp').append('<div class="col s12 m1">'+ json.name +' '+ this.lastName +'</div>');
+              $('.nom_ent').append(json.businessName);
+              $('.mail_ent').append(json.email);
+              $('.nom_resp').append(json.name +' '+ json.lastName );
         });
       }
     </script>

@@ -209,9 +209,11 @@ function errorModal() {
             var entry = {};
             var nom = $(this).find("input[id='creaevent-nom']").val();
             var descripcio = $(this).find("textarea[id='creaevent-descrip']").val();
+            var data = $(this).find("input[id='data']").val();
             var idType = parseInt($(this).find("input[id='idTypeEvent']").val());
             entry.title = nom;
             entry.description = descripcio;
+            entry.dateEvent = data;
             entry.idTypeEvent = idType;
             arr.push(entry);
         });
@@ -219,7 +221,7 @@ function errorModal() {
         //alert(JSON.stringify(arr));
         formData=JSON.stringify(arr);
         formData = formData.replace(/[\[\]]/g, "");
-        //alert(formData);
+        console.log(formData);
 
         $.ajax({
             type: "POST",
@@ -229,8 +231,7 @@ function errorModal() {
             success: function() { console.log('ok!');
             window.location.href = "listar_eventos.html";
             },
-            //success: function (request, status, error) { alert(formData); },
-            error: function (request, status, error) { alert(formData); },
+            error: function (request, status, error) { console.log('error!'); },
             contentType : "application/json"
         });
     });
@@ -254,7 +255,7 @@ function errorModal() {
         });
         formData=JSON.stringify(arr);
         formData = formData.replace(/[\[\]]/g, "");
-        
+
 
         $.ajax({
             type: "POST",
@@ -296,25 +297,6 @@ function errorModal() {
         });
     });
   }
-
-    /*
-        $("#add").click(function() {
-            var intId = $("#buildyourform div").length + 1;
-            var fieldWrapper = $("<div class=\"fieldwrapper\" id=\"field" + intId + "\"/>");
-            var name = $("<input type=\"text\" name=\"neighborhood\" placeholder=\"Name of Neighborhood\"class=\"fieldname\" />");
-               var url = $("<input type=\"text\" name=\"url\" placeholder=\"Paste here the URL of the Image\"class=\"fieldname\" />");
-
-            var removeButton = $("<input type=\"button\"class=\"remove\" value=\"Remove\" />");
-            removeButton.click(function() {
-                $(this).parent().remove();
-            });
-            fieldWrapper.append(name);
-                    fieldWrapper.append(url);
-
-            fieldWrapper.append(removeButton);
-            $("#buildyourform").append(fieldWrapper);
-        });
-    */
 
 /*** Fi Json ***/
 

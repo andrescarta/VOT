@@ -11,8 +11,7 @@
     <link href="css/style.css" type="text/css" rel="stylesheet" media="screen,projection" />
 </head>
 
-<!--<body onload="quinaId()">-->
-<body onload="users();get_entitat();quinaId()">
+<body onload="preguntes();get_entitat();quinaId()">
     <div class="container my-wrapper valign-wrapper">
         <div class="interior" id="elasticity">
 
@@ -38,39 +37,28 @@
                       </div>
           <!-- fi capçalera -->
 
+          <div class="row fonsrow">
+              <h5 class="titol">Llistat de temes a votar</h5>
+          </div>
+
             <div class="row fonsrow">
-              <h5 class="titol"></h5>
+              <h5 id="titol" class="titol"></h5>
             </div>
 
       			<div class="row fonsrow">
-              <div class="col s12 m12 descripcio"><!--Aquest esdeveniment encara no té Votants--></div>
-              <!--<div id="add">+</div>-->
+              <div class="col s12 m12 descripcio"></div>
       			</div>
 
             <div class="row fieldwrapper fonsrow">
       			    <form class="col s12" name="formulari">
       			        <div class="row inputfila01 nou_user" style="transform:translateX(200px);">
-      			            <div class="input-field col s6 m2">
-      			                <input id="name" type="text">
-      			                <label for="name">Nom</label>
+      			            <div class="input-field col s12 m12">
+                          <textarea id="enunciat" class="materialize-textarea"></textarea>
+                          <label for="enunciat">Enunciat del tema a votar...</label>
       			            </div>
-      			            <div class="input-field col s6 m2">
-      			                <input id="lastName" type="text">
-      			                <label for="lastName">Cognoms</label>
-      			            </div>
-                        <div class="input-field col s12 m4">
-                            <input id="email" type="email" class="validate">
-                            <label for="email">Email</label>
-                            <input type="hidden" id="idProfile" name="idProfile" value="2">
-                            <input type="hidden" id="idEntity" name="idEntity" value="1">
-                        </div>
-                        <div class="input-field col s12 m4">
-                            <input id="password" type="password" name="password">
-                            <label for="password">Password</label>
-                        </div>
       			        </div>
       			        <div class="row">
-      			            <div id="crea-votant" class="boto center elasticity-0" style="transform: translateX(-200px);"><a href="#" id="download-button" class="btn-large waves-effect waves-light indigo darken-4 bototext">Crea un nou votant</a></div>
+      			            <div id="crea-pregunta" class="boto center elasticity-0" style="transform: translateX(-200px);"><a href="#" id="download-button" class="btn-large waves-effect waves-light indigo darken-4 bototext">Crea una nova pregunta</a></div>
       			        </div>
       			    </form>
       			</div>
@@ -84,40 +72,59 @@
     <script src="js/scripts.js"></script>
     <script src="js/anime.js"></script>
     <script>
-      /* llista de users de l'esdeveniment */
-      function users() {
-        $.getJSON('https://cors-anywhere.herokuapp.com/https://itacademybcn.herokuapp.com/hackaton/users', function(json) {
+      /* llista de preguntes de l'esdeveniment */
+      function preguntes() {
+      var id = window.location.href.split('=').pop()
+      var idUrlPreguntes = 'https://cors-anywhere.herokuapp.com/https://itacademybcn.herokuapp.com/hackaton/entities/1/events/'+id+'/questions';
+        $.getJSON(idUrlPreguntes, function(json) {
           $('.descripcio').empty();
             $.each(json, function() {
-              $('.descripcio').append('<div class="col s6 m2 llista_users">'+ this.name +'</div>');
-              $('.descripcio').append('<div class="col s6 m2">'+ this.lastName +'</div>');
-              $('.descripcio').append('<div class="col s6 m7">'+ this.email +'</div>');
-              $('.descripcio').append('<div class="col s6 m1 elimina_user"><a href="#" onclick="eliminaUser('+ this.idUser +');" class="no_sub">x</a></div>');
+              $('.descripcio').append('<div class="col s12 m12 llista_users"><a href="#" onclick="obreOpcions('+ this.idQuestion +');">'+ this.description +'</a></div>');
               $('.descripcio').append('<div class="col s12 m12 linia-sep"></div>');
             });
         });
       }
 
-      /* esborra user */
-      function eliminaUser(user) {
-        var idUserElimina = 'https://cors-anywhere.herokuapp.com/https://itacademybcn.herokuapp.com/hackaton/users/'+user;
-        console.log(idUserElimina);
+      function obreOpcions (idPregunta) {
+        console.log(idPregunta);
+        var idEvent = window.location.href.split('=').pop()
+        var idUrlPregunta = 'pregunta_entitat.html?idEvent='+idEvent+'&idPregunta='+idPregunta;
+        window.location.href = idUrlPregunta;
+      }
+
+      /* crea pregunta */
+      $("#crea-pregunta").click(function() {
+          var urlActual = window.location.href;
+          var id = window.location.href.split('=').pop();
+          var idUrlPreguntes = 'https://cors-anywhere.herokuapp.com/https://itacademybcn.herokuapp.com/hackaton/entities/1/events/'+id+'/questions';
+          var arr = [];
+
+          $(".fieldwrapper").each(function() {
+              var entry = {};
+              var enun = $(this).find("textarea[id='enunciat']").val();
+              entry.description = enun;
+              arr.push(entry);
+          });
+
+          formData=JSON.stringify(arr);
+          formData = formData.replace(/[\[\]]/g, "");
+
           $.ajax({
-              type: "DELETE",
-              url: idUserElimina,
+              type: "POST",
+              url: idUrlPreguntes,
+              data: formData,
               success: function() { console.log('ok!');
-              window.location.href = "evento_users.html";
-              },
+              window.location.href = urlActual; },
               error: function (request, status, error) { console.log('error!'); },
               contentType : "application/json"
           });
-      }
+      });
 
       function quinaId () {
         var id = window.location.href.split('=').pop()
         var idUrl = 'https://cors-anywhere.herokuapp.com/https://itacademybcn.herokuapp.com/hackaton/entities/1/events/'+id;
         $.getJSON(idUrl, function(json) {
-              $('.titol').append(json.title);
+              $('#titol').append(json.title);
         });
       }
 
