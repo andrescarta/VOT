@@ -240,9 +240,10 @@ function errorModal() {
     $("#enviar-login-user").click(function() {
         var arr = [];
         var profile;
+        var user;
         $(".fieldwrapper").each(function() {
             var entry = {};
-            var user = $(this).find("input[id='email']").val();
+            user = $(this).find("input[id='email']").val();
             var pass = $(this).find("input[id='password']").val();
             var idProf = parseInt($(this).find("input[id='idProfile']").val());
             entry.email = user;
@@ -253,18 +254,19 @@ function errorModal() {
         });
         formData=JSON.stringify(arr);
         formData = formData.replace(/[\[\]]/g, "");
-        console.log(profile);
+        
 
         $.ajax({
             type: "POST",
             url: "https://cors-anywhere.herokuapp.com/https://itacademybcn.herokuapp.com/hackaton/login",
             data: formData,
-            success: function() {
+            success: function(response) {
+                var obj = JSON.parse(response);
               console.log('ok!');
               if (profile==1) {
                 window.location.href = "listar_eventos.html";
               } else {
-                window.location.href = "listar_eventos_users.html";
+                window.location.href = "listar_eventos_users.html?email=" + obj.email + "&name="+obj.name + " "+obj.lastName ;
               }
             },
             error: function (request, status, error) {
