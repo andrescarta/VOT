@@ -1,3 +1,5 @@
+var errorText=false;
+
 (function($) {
     $(function() {
 
@@ -19,7 +21,14 @@
               });
           },
           'complete'   : function() {
+            console.log(errorText);
+
+            if(errorText==false) {
               swal.close();
+            } else {
+              errorModal();
+              errorText=false;
+            }
           }
       });
 
@@ -104,7 +113,13 @@
 
 // end of document ready
 
-
+function errorModal() {
+  swal({
+  type: 'error',
+  title: 'Ups!',
+  text: 'Torna-ho a provar...',
+  });
+}
 
 
 /*** Json ***/
@@ -224,31 +239,38 @@
 
     $("#enviar-login-user").click(function() {
         var arr = [];
-
+        var profile;
         $(".fieldwrapper").each(function() {
             var entry = {};
             var user = $(this).find("input[id='email']").val();
-            var pass = $(this).find("textarea[id='password']").val();
+            var pass = $(this).find("input[id='password']").val();
             var idProf = parseInt($(this).find("input[id='idProfile']").val());
             entry.email = user;
-            entry.password = password;
+            entry.password = pass;
             entry.idProfile = idProf;
             arr.push(entry);
+            profile = idProf;
         });
-
-        //alert(JSON.stringify(arr));
         formData=JSON.stringify(arr);
         formData = formData.replace(/[\[\]]/g, "");
-        //alert(formData);
+        console.log(profile);
 
         $.ajax({
             type: "POST",
-            // Com que de moment només treballem amb una entitat, la url queda fixe amb la entitat 1...
             url: "https://cors-anywhere.herokuapp.com/https://itacademybcn.herokuapp.com/hackaton/login",
             data: formData,
-            success: function() { alert('ok!'); },
-            //success: function (request, status, error) { alert(formData); },
-            error: function (request, status, error) { alert(formData); },
+            success: function() {
+              console.log('ok!');
+              if (profile==1) {
+                window.location.href = "listar_eventos.html";
+              } else {
+                window.location.href = "listar_eventos_users.html";
+              }
+            },
+            error: function (request, status, error) {
+              console.log(formData);
+              errorText = true;
+            },
             contentType : "application/json"
         });
     });
