@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="ca">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0" />
+    <title>Vot!</title>
+    <link href="/img/favicon.png" rel="icon" type="image/x-icon" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="css/materialize.css" type="text/css"
+ rel="stylesheet" media="screen,projection" />
+    <link href="css/style.css" type="text/css" rel="stylesheet" media="screen,projection" />
+</head>
+
+<body onload="quinaId();get_entitat()">
+    <div class="container my-wrapper valign-wrapper">
+        <div class="interior" id="elasticity">
+
+            <div class="row fonsrow">
+                <div class="col s10 m10">
+                    <div>
+                        <div class="logoapp" style="transform:translateY(-200px);">
+                            <div class="col s12 m3 logo entitat"><img src="img/m4social.jpg" width="130" class="entitat"></div>
+                            <div class="col s12 m3 nom_ent"></div>
+                            <div class="col s12 m3 mail_ent"></div>
+                            <div class="col s12 m3 nom_resp"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col s2 m2">
+                    <div>
+                        <div class="logoapp" style="transform:translateY(-200px);">
+                            <div class="logo config"><a href="config.html"><img src="img/config.png" width="30"></a></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="row fonsrow">
+              <h5 class="titol"></h5>
+            </div>
+
+      			<div class="row fieldwrapper fonsrow">
+      			        <div class="row inputfila01" style="transform:translateX(200px);">
+                      <div class="descripcio"></div>
+      			        </div>
+      			        <div class="row inputfila02" style="transform:translateX(-200px);">
+                      <div class="data"></div>
+      			        </div>
+      			</div>
+
+            <div class="row fonsrow">
+
+                <!-- ELIMINAR: EL USUARIO NO PUEDE INGRESAR A INVITAR USUARIOS -->
+              <!-- <div class="col s12 m4">
+                <div id="convidats" class="boto center elasticity-100" style="transform: translateX(200px);"><a href="evento_users.html" id="download-button" class="btn-large waves-effect waves-light indigo darken-4 bototext_v">Convidats</a></div>
+              </div> -->
+              <div class="col s12 m6">
+                <div id="preguntes" class="boto center elasticity-100" style="transform: translateX(200px);"><a href="preguntas_para_users.html" id="download-button01" class="btn-large waves-effect waves-light indigo darken-4 bototext_v">Preguntes</a></div>
+              </div>
+              <div class="col s12 m6">
+                <div id="stats" class="boto center elasticity-100" style="transform: translateX(200px);"><a href="" id="stats.html" class="btn-large waves-effect waves-light indigo darken-4 bototext_v">Resultats</a></div>
+              </div>
+            </div>
+
+             <!-- ELIMINAR: EL USUARIO NO PUEDE ELIMINAR EVENTOS -->
+
+            <!-- <div class="row fonsrow">
+              <div class="col s12 m12">
+                <div id="eliminar" class="boto center elasticity-0" style="transform: translateX(-200px);"><a href="" id="download-button03" class="btn-large waves-effect waves-light indigo darken-4 bototext">Esborrar esdeveniment</a></div>
+              </div>
+            </div> -->
+        </div>
+    </div>
+
+    <!--  Scripts-->
+    <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script src="js/sweetalert2.all.min.js"></script>
+    <script src="js/materialize.min.js"></script>
+    <script src="js/scripts.js"></script>
+    <script src="js/anime.js"></script>
+
+    <script>
+    /* detecta idEvent i pinta lo corresponent */
+      function quinaId () {
+        var id = window.location.href.split('=').pop()
+        var idUrl = 'https://cors-anywhere.herokuapp.com/https://itacademybcn.herokuapp.com/hackaton/entities/1/events/'+id;
+        $.getJSON(idUrl, function(json) {
+              $('.titol').append(json.title);
+              $('.descripcio').append('<div class="col s12 m7">'+ json.description +'</div>');
+              $('.data').append('<div class="col s12 m1">'+ json.date +'</div>');
+        });
+      }
+
+      function get_entitat() {
+        $.getJSON('https://cors-anywhere.herokuapp.com/https://itacademybcn.herokuapp.com/hackaton/entities/1', function(json) {
+              $('.nom_ent').append('<div class="col s12 m3"> '+ json.businessName +' </div>');
+              $('.mail_ent').append('<div class="col s12 m7">'+ json.email +'</div>');
+              $('.nom_resp').append('<div class="col s12 m1">Admin: '+ json.name +' '+ json.lastName +'</div>');
+        });
+      }
+    </script>
+
+</body>
+
+</html>

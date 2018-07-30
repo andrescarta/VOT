@@ -5,6 +5,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0" />
     <title>Vot!</title>
+    <link href="/img/favicon.png" rel="icon" type="image/x-icon" />
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link href="css/materialize.css" type="text/css"
  rel="stylesheet" media="screen,projection" />
@@ -55,27 +56,11 @@
  
  
  
- 
-    <script>
-          function cabecera() {
-            $.getJSON('https://cors-anywhere.herokuapp.com/https://itacademybcn.herokuapp.com/hackaton/login', function(json) {
-                $.each(json, function() {
-                //   $('#user').append( this.idUser );
-                console.log("hello asdasd");
-                  $('#email').append( this.email );
-
-                //   $('#events').append('<div class="col s12 m7">Descripció: '+ this.description +'</div>');
-                //   $('#events').append('<div class="col s12 m1">Data: '+ this.date +'</div>');
-                //   //$('#events').append('<div class="col s12 m1">idEvent: '+ this.idEvent +'</div>');
-                //   $('#events').append('<div class="col s12 m12 linia-sep"></div>');
-                });
-            });
-          }
-        </script>
     
 
 <script>
-/**
+/** SCRIPT PARA TOMAR EL NOMBRE APELLIDO E EMAIL DE QUIEN LOGUEA
+
 * Funcion que captura las variables pasados por GET
 * Devuelve un array de clave=>valor
 */
@@ -116,7 +101,7 @@ function getGET()
 
         $.getJSON('https://cors-anywhere.herokuapp.com/https://itacademybcn.herokuapp.com/hackaton/users/2/events', function(json) {
             $.each(json, function() {
-              $('#events').append('<div class="col s12 m3"><a href="evento.html?idEvent='+ this.idEvent +'">Titol:  ' + this.title + '</a></div>');
+              $('#events').append('<div class="col s12 m3"><a href="evento_for_users.html?idEvent='+ this.idEvent +'">Titol:  ' + this.title + '</a></div>');
               $('#events').append('<div class="col s12 m7">Descripció: '+ this.description +'</div>');
               $('#events').append('<div class="col s12 m1">Data: '+ this.date +'</div>');
               //$('#events').append('<div class="col s12 m1">idEvent: '+ this.idEvent +'</div>');
