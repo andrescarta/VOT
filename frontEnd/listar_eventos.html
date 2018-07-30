@@ -11,7 +11,7 @@
     <link href="css/style.css" type="text/css" rel="stylesheet" media="screen,projection" />
 </head>
 
-<body onload="llista_events()">
+<body onload="llista_events();get_entitat()">
     <div class="container my-wrapper valign-wrapper">
         <div class="interior" id="elasticity">
 
@@ -21,8 +21,9 @@
                         <div class="logoapp" style="transform:translateY(-200px);">
                             <div class="logo entitat"><img src="img/m4social.jpg" width="130" class="entitat"></div>
                         </div>
-                        <div class="nom_ent">m4social</div>
-                        <div class="mail_ent">blabla@bla.bla</div>
+                        <div class="nom_ent"></div>
+                        <div class="mail_ent"></div>
+                        <div class="nom_resp"></div>
                     </div>
                 </div>
                 <div class="col s2 m2">
@@ -51,17 +52,25 @@
     <script src="js/materialize.min.js"></script>
     <script src="js/anime.js"></script>
     <script src="js/scripts.js"></script>
+
     <script>
     /* Recollir llista d'events i parsejar-los */
       function llista_events() {
         $.getJSON('https://cors-anywhere.herokuapp.com/https://itacademybcn.herokuapp.com/hackaton/entities/1/events', function(json) {
             $.each(json, function() {
-              $('#events').append('<div class="col s12 m3"><a href="evento.html?idEvent='+ this.idEvent +'">Titol:  ' + this.title + '</a></div>');
-              $('#events').append('<div class="col s12 m7">Descripció: '+ this.description +'</div>');
-              $('#events').append('<div class="col s12 m1">Data: '+ this.date +'</div>');
-              //$('#events').append('<div class="col s12 m1">idEvent: '+ this.idEvent +'</div>');
+              $('#events').append('<div class="col s12 m3"><a href="evento.html?idEvent='+ this.idEvent +'">' + this.title + '</a></div>');
+              $('#events').append('<div class="col s12 m7">'+ this.description +'</div>');
+              $('#events').append('<div class="col s12 m2 aladreta">'+ this.date +'</div>');
               $('#events').append('<div class="col s12 m12 linia-sep"></div>');
             });
+        });
+      }
+      function get_entitat() {
+        $.getJSON('https://cors-anywhere.herokuapp.com/https://itacademybcn.herokuapp.com/hackaton/entities/1', function(json) {
+          console.log(json);
+              $('.nom_ent').append('<div class="col s12 m3"> '+ json.businessName +' </div>');
+              $('.mail_ent').append('<div class="col s12 m7">'+ json.email +'</div>');
+              $('.nom_resp').append('<div class="col s12 m1">'+ json.name +' '+ this.lastName +'</div>');
         });
       }
     </script>
