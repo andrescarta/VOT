@@ -116,9 +116,8 @@ var errorText=false;
 function errorModal() {
   swal({
   type: 'error',
-  title: 'Ups...',
-  text: 'Usuari no autoritzat!',
-  footer: '<a href>Why do I have this issue?</a>'
+  title: 'Ups!',
+  text: 'Torna-ho a provar...',
   });
 }
 
@@ -240,7 +239,7 @@ function errorModal() {
 
     $("#enviar-login-user").click(function() {
         var arr = [];
-
+        var profile;
         $(".fieldwrapper").each(function() {
             var entry = {};
             var user = $(this).find("input[id='email']").val();
@@ -250,26 +249,27 @@ function errorModal() {
             entry.password = pass;
             entry.idProfile = idProf;
             arr.push(entry);
+            profile = idProf;
         });
-
-        //alert(JSON.stringify(arr));
         formData=JSON.stringify(arr);
         formData = formData.replace(/[\[\]]/g, "");
-        //alert(formData);
+        console.log(profile);
 
         $.ajax({
             type: "POST",
-            // Com que de moment només treballem amb una entitat, la url queda fixe amb la entitat 1...
             url: "https://cors-anywhere.herokuapp.com/https://itacademybcn.herokuapp.com/hackaton/login",
             data: formData,
             success: function() {
               console.log('ok!');
-              window.location.href = "listar_eventos.html";
+              if (profile==1) {
+                window.location.href = "listar_eventos.html";
+              } else {
+                window.location.href = "listar_eventos_users.html";
+              }
             },
             error: function (request, status, error) {
               console.log(formData);
               errorText = true;
-              //errorModal();
             },
             contentType : "application/json"
         });
