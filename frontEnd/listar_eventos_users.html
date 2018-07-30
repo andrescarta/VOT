@@ -21,8 +21,8 @@
                         <div class="logoapp" style="transform:translateY(-200px);">
                             <div class="logo entitat"><img src="img/userfoto.png" width="130" class="entitat"></div>
                         </div>
-                        <div class="nom_ent">Fulano Detal</div>
-                        <div class="mail_ent">fulano@bla.bla</div>
+                        <div id="idUser" class="nom_ent"></div>
+                        <div id="email" class="mail_ent"></div>
                     </div>
                 </div>
                 <div class="col s2 m2">
@@ -39,9 +39,10 @@
       			<div class="row fieldwrapper fonsrow">
               <div id="events" class="col s12 m12"></div>
             </div>
+            <!-- ELIMINAR, EL USUARIO NO CREA EVENTOS
             <div class="row">
                 <div class="boto center elasticity-100" style="transform: translateX(200px);"><a href="crea_evento.html" id="download-button" class="btn-large waves-effect waves-light indigo darken-4 bototext">Afegir un nou esdeveniment</a></div>
-            </div>
+            </div> -->
         </div>
     </div>
 
@@ -51,14 +52,48 @@
     <script src="js/materialize.min.js"></script>
     <script src="js/anime.js"></script>
     <script src="js/scripts.js"></script>
+ 
+ 
+ 
+ 
     <script>
+        // Obtencion de Cabecera
+          function Cabecera() {
+            $.getJSON('https://itacademybcn.herokuapp.com/hackaton/login', function(json) {
+                $.each(json, function() {
+                  $('#idUser').append( this.idUser );
+                  $('#email').append( this.email );
+
+                //   $('#events').append('<div class="col s12 m7">Descripció: '+ this.description +'</div>');
+                //   $('#events').append('<div class="col s12 m1">Data: '+ this.date +'</div>');
+                //   //$('#events').append('<div class="col s12 m1">idEvent: '+ this.idEvent +'</div>');
+                //   $('#events').append('<div class="col s12 m12 linia-sep"></div>');
+                });
+            });
+          }
+        </script>
+    
+ 
+
+    "login usuario:
+    La Api recibe en JSON:
+    { ""email"" : ""rccr.2015@gmail.com"", ""password"" : ""123"" , ""idProfile"": 1}
+    
+    La Api responde en JSON:
+    [{""idUser"":1,""name"":""Roberto"",""lastName"":""Cortijo"",""email"":""rccr.2015@gmail.com"",
+    ""profile"":{""idProfile"":1,""name"":""Entidad""}}]"
+
+
+
+
+ <script>
     /* Recollir llista d'events i parsejar-los */
       function llista_events() {
-        $.getJSON('https://cors-anywhere.herokuapp.com/https://itacademybcn.herokuapp.com/hackaton/entities/1/events', function(json) {
+        $.getJSON('https://cors-anywhere.herokuapp.com/https://itacademybcn.herokuapp.com/hackaton/users/2/events', function(json) {
             $.each(json, function() {
               $('#events').append('<div class="col s12 m3"><a href="evento.html?idEvent='+ this.idEvent +'">Titol:  ' + this.title + '</a></div>');
               $('#events').append('<div class="col s12 m7">Descripció: '+ this.description +'</div>');
-              $('#events').append('<div class="col s12 m1">Data: '+ this.fecha +'</div>');
+              $('#events').append('<div class="col s12 m1">Data: '+ this.date +'</div>');
               //$('#events').append('<div class="col s12 m1">idEvent: '+ this.idEvent +'</div>');
               $('#events').append('<div class="col s12 m12 linia-sep"></div>');
             });
@@ -68,3 +103,5 @@
 </body>
 
 </html>
+
+
