@@ -11,7 +11,7 @@
     <link href="css/style.css" type="text/css" rel="stylesheet" media="screen,projection" />
 </head>
 
-<body onload="preguntes();get_entitat();quinaId()">
+<body onload="getOpcionsPregunta();get_entitat();quinaId()">
     <div class="container my-wrapper valign-wrapper">
         <div class="interior" id="elasticity">
 
@@ -54,13 +54,13 @@
       			    <form class="col s12" name="formulari">
       			        <div class="row inputfila01 nou_user" style="transform:translateX(200px);">
       			            <div class="input-field col s12 m12">
-                          <textarea id="enunciat" class="materialize-textarea"></textarea>
-                          <label for="enunciat">Enunciat del tema a votar...</label>
+                          <input id="opcio" type="text">
+                          <label for="opcio">Opció resposta</label>
                           <!--<input type="hidden" id="idTypeEvent" name="idTypeEvent" value="1">-->
       			            </div>
       			        </div>
       			        <div class="row">
-      			            <div id="crea-pregunta" class="boto center elasticity-0" style="transform: translateX(-200px);"><a href="#" id="download-button" class="btn-large waves-effect waves-light indigo darken-4 bototext">Crea una nova pregunta</a></div>
+      			            <div id="crea-opcio" class="boto center elasticity-0" style="transform: translateX(-200px);"><a href="#" id="download-button" class="btn-large waves-effect waves-light indigo darken-4 bototext">Crea una nova opció</a></div>
       			        </div>
       			    </form>
       			</div>
@@ -75,6 +75,8 @@
     <script src="js/anime.js"></script>
     <script>
 
+    var urlActual = window.location.href;
+
     $.urlParam = function(name){
         var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
         if (results==null){
@@ -85,55 +87,82 @@
         }
     }
 
-      /* llista de preguntes de l'esdeveniment */
-      function preguntes() {
-      var id = window.location.href.split('=').pop()
-      var idUrlPreguntes = 'https://cors-anywhere.herokuapp.com/https://itacademybcn.herokuapp.com/hackaton/entities/1/events/'+id+'/questions';
-        $.getJSON(idUrlPreguntes, function(json) {
-          $('.descripcio').empty();
-            $.each(json, function() {
-              $('.descripcio').append('<div class="col s12 m12 llista_users"><a href="#" onclick="obreopcions('+ this.idQuestion +');">'+ this.description +'</a></div>');
-              $('.descripcio').append('<div class="col s12 m12 linia-sep"></div>');
-            });
-        });
-      }
+    var idEvent = $.urlParam('idEvent');
+    var idPregunta = $.urlParam('idPregunta');
 
-      /* crea pregunta */
-      $("#crea-pregunta").click(function() {
-          var urlActual = window.location.href;
-          var id = window.location.href.split('=').pop();
-          var idUrlPreguntes = 'https://cors-anywhere.herokuapp.com/https://itacademybcn.herokuapp.com/hackaton/entities/1/events/'+id+'/questions';
+      /* crea opcio */
+      $("#crea-opcio").click(function() {
+          var idUrlPreguntes = 'https://cors-anywhere.herokuapp.com/https://itacademybcn.herokuapp.com/hackaton/entities/1/events/'+idEvent+'/questions/'+idPregunta+'/options';
           var arr = [];
 
           $(".fieldwrapper").each(function() {
               var entry = {};
-              var enun = $(this).find("textarea[id='enunciat']").val();
-              entry.description = enun;
+              var resp = $(this).find("input[id='opcio']").val();
+              entry.description = resp;
               arr.push(entry);
           });
 
           formData=JSON.stringify(arr);
           formData = formData.replace(/[\[\]]/g, "");
+          console.log(formData);
 
           $.ajax({
               type: "POST",
               url: idUrlPreguntes,
               data: formData,
               success: function() { console.log('ok!');
-              window.location.href = urlActual; },
+              window.location.href = urlActual;
+              },
               error: function (request, status, error) { console.log('error!'); },
               contentType : "application/json"
           });
       });
 
+      /* esborra opcio */
+      function eliminaOpcio(opcio) {
+        var idQuestionElimina = 'https://cors-anywhere.herokuapp.com/https://itacademybcn.herokuapp.com/hackaton/entities/1/events/'+idEvent+'/questions/'+idPregunta+'/options/'+opcio;
+        console.log(idQuestionElimina);
+          $.ajax({
+              type: "DELETE",
+              url: idQuestionElimina,
+              success: function() { console.log('ok!');
+              window.location.href = urlActual;
+              },
+              error: function (request, status, error) { console.log('error!'); },
+              contentType : "application/json"
+          });
+      }
+
+      /* obté llista de opcions de la pregunta */
+      function getOpcionsPregunta() {
+      var idUrlOpcions = 'https://cors-anywhere.herokuapp.com/https://itacademybcn.herokuapp.com/hackaton/entities/1/events/'+idEvent+'/questions/'+idPregunta+'/options';
+        $.getJSON(idUrlOpcions, function(json) {
+          $('.descripcio').empty();
+            $.each(json, function() {
+              $('.descripcio').append('<div class="col s10 m11 llista_users">'+ this.description +'</div>');
+              $('.descripcio').append('<div class="col s2 m1 elimina_user"><a href="#" onclick="eliminaOpcio('+ this.idOption +');" class="no_sub">x</a></div>');
+              $('.descripcio').append('<div class="col s12 m12 linia-sep"></div>');
+            });
+        });
+      }
+
+      function quinaPregunta () {
+        var idUrl = 'https://cors-anywhere.herokuapp.com/https://itacademybcn.herokuapp.com/hackaton/entities/1/events/'+idEvent+'/questions/'+idPregunta;
+        console.log(idUrl);
+
+        $.getJSON(idUrl, function(json) {
+              $('#pregunta').append(json.description);
+              console.log(json.description);
+        });
+      }
+
       function quinaId () {
-        var idEvent = $.urlParam('idEvent');
-        console.log(idEvent);
         var idUrl = 'https://cors-anywhere.herokuapp.com/https://itacademybcn.herokuapp.com/hackaton/entities/1/events/'+idEvent;
         $.getJSON(idUrl, function(json) {
               $('#titol').append(json.title);
+              console.log(json.title);
         });
-
+      //  quinaPregunta();
       }
 
       function get_entitat() {
