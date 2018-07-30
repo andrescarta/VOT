@@ -5,6 +5,7 @@ var errorText=false;
 
 /* modals per quan estem utilitzant ajax (llegeix i escriu json's) */
 
+
       $.ajaxSetup({
           'beforeSend' : function() {
               swal({
