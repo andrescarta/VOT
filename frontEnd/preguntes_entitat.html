@@ -55,7 +55,6 @@
       			            <div class="input-field col s12 m12">
                           <textarea id="enunciat" class="materialize-textarea"></textarea>
                           <label for="enunciat">Enunciat del tema a votar...</label>
-                          <!--<input type="hidden" id="idTypeEvent" name="idTypeEvent" value="1">-->
       			            </div>
       			        </div>
       			        <div class="row">
@@ -80,10 +79,17 @@
         $.getJSON(idUrlPreguntes, function(json) {
           $('.descripcio').empty();
             $.each(json, function() {
-              $('.descripcio').append('<div class="col s12 m12 llista_users"><a href="#" onclick="obreopcions('+ this.idQuestion +');">'+ this.description +'</a></div>');
+              $('.descripcio').append('<div class="col s12 m12 llista_users"><a href="#" onclick="obreOpcions('+ this.idQuestion +');">'+ this.description +'</a></div>');
               $('.descripcio').append('<div class="col s12 m12 linia-sep"></div>');
             });
         });
+      }
+
+      function obreOpcions (idPregunta) {
+        console.log(idPregunta);
+        var idEvent = window.location.href.split('=').pop()
+        var idUrlPregunta = 'pregunta_entitat.html?idEvent='+idEvent+'&idPregunta='+idPregunta;
+        window.location.href = idUrlPregunta;
       }
 
       /* crea pregunta */

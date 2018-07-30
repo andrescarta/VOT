@@ -38,7 +38,8 @@
           <!-- fi capçalera -->
 
           <div class="row fonsrow">
-              <h5 class="titol">Llistat de temes a votar</h5>
+              <h5 class="titol">Opcions pregunta:</h5>
+              <div id="pregunta"></div>
           </div>
 
             <div class="row fonsrow">
@@ -73,6 +74,17 @@
     <script src="js/scripts.js"></script>
     <script src="js/anime.js"></script>
     <script>
+
+    $.urlParam = function(name){
+        var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
+        if (results==null){
+           return null;
+        }
+        else{
+           return decodeURI(results[1]) || 0;
+        }
+    }
+
       /* llista de preguntes de l'esdeveniment */
       function preguntes() {
       var id = window.location.href.split('=').pop()
@@ -115,11 +127,13 @@
       });
 
       function quinaId () {
-        var id = window.location.href.split('=').pop()
-        var idUrl = 'https://cors-anywhere.herokuapp.com/https://itacademybcn.herokuapp.com/hackaton/entities/1/events/'+id;
+        var idEvent = $.urlParam('idEvent');
+        console.log(idEvent);
+        var idUrl = 'https://cors-anywhere.herokuapp.com/https://itacademybcn.herokuapp.com/hackaton/entities/1/events/'+idEvent;
         $.getJSON(idUrl, function(json) {
               $('#titol').append(json.title);
         });
+
       }
 
       function get_entitat() {
