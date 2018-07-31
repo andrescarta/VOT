@@ -1,14 +1,179 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Preguntas de Evento</title>
-    <link href="/img/favicon.png" rel="icon" type="image/x-icon" />
-</head>
-<body>
-        <h1>Aca apareceran las preguntas pertenecientes a un Evento</h1>
+<html lang="ca">
 
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0" />
+    <title>Vot!</title>
+    <link href="/img/favicon.png" rel="icon" type="image/x-icon" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="css/materialize.css" type="text/css"
+ rel="stylesheet" media="screen,projection" />
+    <link href="css/style.css" type="text/css" rel="stylesheet" media="screen,projection" />
+</head>
+
+<body onload="getOpcionsPregunta();get_entitat();quinaId()">
+    <div class="container my-wrapper valign-wrapper">
+        <div class="interior" id="elasticity">
+
+          <!-- inici capçalera -->
+                      <div class="row fonsrow">
+                          <div class="col s10 m10">
+                              <div>
+                                  <div class="logoapp" style="transform:translateY(-200px);">
+                                      <div class="col s12 m3 logo entitat"><img src="img/m4social.jpg" width="130" class="entitat"></div>
+                                      <div class="col s12 m9 nom_ent"></div>
+                                      <div class="col s12 m9 mail_ent"></div>
+                                      <div class="col s12 m9 nom_resp"></div>
+                                  </div>
+                              </div>
+                          </div>
+                          <div class="col s2 m2">
+                              <div>
+                                  <div class="logoapp" style="transform:translateY(-200px);">
+                                      <div class="logo config"><a href="config.html"><img src="img/config.png" width="30"></a></div>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+          <!-- fi capçalera -->
+
+          <div class="row fonsrow">
+              <h5 class="titol">Opcions pregunta:</h5>
+              <div id="pregunta"></div>
+          </div>
+
+            <div class="row fonsrow">
+              <h5 id="titol" class="titol"></h5>
+            </div>
+
+      			<div class="row fonsrow">
+              <div class="col s12 m12 descripcio"></div>
+      			</div>
+
+            <div class="row fieldwrapper fonsrow">
+      			    <form class="col s12" name="formulari">
+      			        <div class="row inputfila01 nou_user" style="transform:translateX(200px);">
+      			            <div class="input-field col s12 m12">   
+                          <input id="opcio" type="text">
+                          <label for="opcio">Opció resposta</label>
+                          <!--<input type="hidden" id="idTypeEvent" name="idTypeEvent" value="1">-->
+      			            </div>
+      			        </div>
+      			        <div class="row">
+      			            <div id="crea-opcio" class="boto center elasticity-0" style="transform: translateX(-200px);"><a href="#" id="download-button" class="btn-large waves-effect waves-light indigo darken-4 bototext">Crea una nova opció</a></div>
+      			        </div>
+      			    </form>
+      			</div>
+        </div>
+    </div>
+
+    <!--  Scripts-->
+    <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script src="js/sweetalert2.all.min.js"></script>
+    <script src="js/materialize.min.js"></script>
+    <script src="js/scripts.js"></script>
+    <script src="js/anime.js"></script>
+    <script>
+
+    var urlActual = window.location.href;
+
+    $.urlParam = function(name){
+        var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
+        if (results==null){
+           return null;
+        }
+        else{
+           return decodeURI(results[1]) || 0;
+        }
+    }
+
+    var idEvent = $.urlParam('idEvent');
+    var idPregunta = $.urlParam('idPregunta');
+
+      /* crea opcio */
+      $("#crea-opcio").click(function() {
+          var idUrlPreguntes = 'https://cors-anywhere.herokuapp.com/https://itacademybcn.herokuapp.com/hackaton/entities/1/events/'+idEvent+'/questions/'+idPregunta+'/options';
+          var arr = [];
+
+          $(".fieldwrapper").each(function() {
+              var entry = {};
+              var resp = $(this).find("input[id='opcio']").val();
+              entry.description = resp;
+              arr.push(entry);
+          });
+
+          formData=JSON.stringify(arr);
+          formData = formData.replace(/[\[\]]/g, "");
+          console.log(formData);
+
+          $.ajax({
+              type: "POST",
+              url: idUrlPreguntes,
+              data: formData,
+              success: function() { console.log('ok!');
+              window.location.href = urlActual;
+              },
+              error: function (request, status, error) { console.log('error!'); },
+              contentType : "application/json"
+          });
+      });
+
+      /* esborra opcio */
+      function eliminaOpcio(opcio) {
+        var idQuestionElimina = 'https://cors-anywhere.herokuapp.com/https://itacademybcn.herokuapp.com/hackaton/entities/1/events/'+idEvent+'/questions/'+idPregunta+'/options/'+opcio;
+        console.log(idQuestionElimina);
+          $.ajax({
+              type: "DELETE",
+              url: idQuestionElimina,
+              success: function() { console.log('ok!');
+              window.location.href = urlActual;
+              },
+              error: function (request, status, error) { console.log('error!'); },
+              contentType : "application/json"
+          });
+      }
+
+      /* obté llista de opcions de la pregunta */
+      function getOpcionsPregunta() {
+      var idUrlOpcions = 'https://cors-anywhere.herokuapp.com/https://itacademybcn.herokuapp.com/hackaton/entities/1/events/'+idEvent+'/questions/'+idPregunta+'/options';
+        $.getJSON(idUrlOpcions, function(json) {
+          $('.descripcio').empty();
+            $.each(json, function() {
+              $('.descripcio').append('<div class="col s10 m11 llista_users">'+ this.description +'</div>');
+              $('.descripcio').append('<div class="col s2 m1 elimina_user"><a href="#" onclick="eliminaOpcio('+ this.idOption +');" class="no_sub">x</a></div>');
+              $('.descripcio').append('<div class="col s12 m12 linia-sep"></div>');
+            });
+        });
+      }
+
+      function quinaPregunta () {
+        var idUrl = 'https://cors-anywhere.herokuapp.com/https://itacademybcn.herokuapp.com/hackaton/entities/1/events/'+idEvent+'/questions/'+idPregunta;
+        console.log(idUrl);
+
+        $.getJSON(idUrl, function(json) {
+              $('#pregunta').append(json.description);
+              console.log(json.description);
+        });
+      }
+
+      function quinaId () {
+        var idUrl = 'https://cors-anywhere.herokuapp.com/https://itacademybcn.herokuapp.com/hackaton/entities/1/events/'+idEvent;
+        $.getJSON(idUrl, function(json) {
+              $('#titol').append(json.title);
+              console.log(json.title);
+        });
+      //  quinaPregunta();
+      }
+
+      function get_entitat() {
+        $.getJSON('https://cors-anywhere.herokuapp.com/https://itacademybcn.herokuapp.com/hackaton/entities/1', function(json) {
+              $('.nom_ent').append(json.businessName);
+              $('.mail_ent').append(json.email);
+              $('.nom_resp').append(json.name +' '+ json.lastName );
+        });
+      }
+    </script>
 </body>
+
 </html>
