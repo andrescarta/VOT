@@ -5,13 +5,13 @@
     font-style: normal;
 }
 
-/*
 html,
 body,
 .my-wrapper {
     height: 100%;
 }
 */
+
 
 html {
   background: -moz-linear-gradient(-45deg, #6666aa 0%, #6698e7 100%);
