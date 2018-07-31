@@ -19,10 +19,12 @@ html {
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#6666aa', endColorstr='#6698e7',GradientType=1 );
 }
 
+/*
 .my-wrapper {
     margin-top: 4px;
     margin-bottom: 25px;
 }
+*/
 
 body {
     font-family: 'fedra_sans_bookregular';
